@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, FlatList } from "react-native";
 
 import Screen from "../components/Screen";
 import Card from "../components/Card";
 import routes from "../navigation/routes";
 import colors from "../config/color";
+import checklistService from "../services/checklistService";
 const listings = [
   {
     id: 1,
@@ -19,6 +20,17 @@ const listings = [
 ];
 
 export default function LintingsScreen({ navigation }) {
+  
+
+  useEffect(() => {
+    load();
+  },[]);
+
+  const load = async () => {
+    const checklist = await checklistService.getChecklist();
+    console.log(checklist.data);
+  };
+
   return (
     <Screen style={styles.screen}>
       <FlatList
