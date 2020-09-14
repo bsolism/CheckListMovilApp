@@ -29,7 +29,7 @@ export default function LintingsScreen({ navigation }) {
       <ActivityIndicator visible={getListingsApi.loading} />
       <FlatList
         data={getListingsApi.data}
-        keyExtractor={(listing) => listing.id.toString()}
+        keyExtractor={(listing) => listing.id}
         renderItem={({ item }) => (
           <Card
             title={item.name}

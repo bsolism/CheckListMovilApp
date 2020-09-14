@@ -11,24 +11,13 @@ import Text from "../components/Text";
 export default function LintingItemScreen({ route, navigation }) {
   const listing = route.params;
 
-  console.log(JSON.stringify(listing.items));
-
-  /*const [listings, setListings] = useState([]);
-  useEffect(() => {
-    loadListings();
-  }, []);
-
-  const loadListings = async () => {
-    console.log(listing.id);
-    const response = await checklistService.getChecklistById(listing.id);
-    setListings(response.data);
-    console.log(response.data);
-  };*/
+  console.log(listing.items);
   return (
     <Screen style={styles.screen}>
       <Text style={styles.title}>{}</Text>
       <FlatList
-        data={JSON.stringify(listing.items)}
+        data={listing.items}
+        keyExtractor = {(item) => item.id}
         renderItem={({ item }) => (
           <CardItem
             title={item.name}
