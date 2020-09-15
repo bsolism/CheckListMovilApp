@@ -10,8 +10,9 @@ import Text from "../components/Text";
 
 export default function LintingItemScreen({ route, navigation }) {
   const listing = route.params;
+  const items = listing.items;
 
-  console.log(JSON.stringify(listing.items));
+  console.log(items);
 
   /*const [listings, setListings] = useState([]);
   useEffect(() => {
@@ -26,9 +27,10 @@ export default function LintingItemScreen({ route, navigation }) {
   };*/
   return (
     <Screen style={styles.screen}>
-      <Text style={styles.title}>{}</Text>
+      <Text style={styles.title}>{listing.name}</Text>
       <FlatList
-        data={JSON.stringify(listing.items)}
+        data={items}
+        keyExtractor={(listing) => listing.id.toString()}
         renderItem={({ item }) => (
           <CardItem
             title={item.name}

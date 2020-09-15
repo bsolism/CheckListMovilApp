@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
@@ -7,17 +7,18 @@ import {
   FormField,
   FormPicker as Picker,
   SubmitButton,
-  FormImagePicker,
 } from "../components/forms";
-import Screen from "../components/Screen";
 import CategoryPickerItem from "../components/CategoryPickerItem";
+import checklistService from "../services/checklistService";
+import Screen from "../components/Screen";
 import useLocation from "../hooks/useLocation";
+import UploadScreen from "./UploadScreen";
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required().min(1).label("Title"),
-  price: Yup.number().required().min(1).max(10000).label("Budget"),
-  description: Yup.string().label("Description"),
-  category: Yup.object().required().nullable().label("Category"),
+  name: Yup.string().required().min(1).label("Name"),
+  // price: Yup.number().required().min(1).max(10000).label("Budget"),
+  // description: Yup.string().label("Description"),
+  //category: Yup.object().required().nullable().label("Category"),
 });
 const categories = [
   {
@@ -78,19 +79,37 @@ const categories = [
 
 export default function ListingEditScreen() {
   const location = useLocation();
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const handleSubmit = async (listing, { resetForm }) => {
+    setProgress(0);
+
+    setUploadVisible(true);
+    const result = await checklistService.createChecklist(listing);
+    console.log("Funcion 4");
+
+    if (!result.ok) {
+      setUploadVisible(false);
+      return alert("Could not save the listing");
+    }
+
+    resetForm();
+  };
+
   return (
     <Screen style={styles.container}>
       <Form
         initialValues={{
-          title: "",
+          name: "",
           price: "",
           description: "",
           category: null,
         }}
-        onSubmit={(values) => console.log(location)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
-        <FormField maxLength={255} name="title" placeholder="Title" />
+        <FormField maxLength={255} name="name" placeholder="Title" />
         <FormField
           keyboardType="numeric"
           maxLength={8}
@@ -113,6 +132,7 @@ export default function ListingEditScreen() {
           numberOfLines={3}
           placeholder="Description"
         />
+
         <SubmitButton title="Post" />
       </Form>
     </Screen>

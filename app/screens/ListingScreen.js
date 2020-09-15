@@ -15,6 +15,7 @@ export default function LintingsScreen({ navigation }) {
   const getListingsApi = useApi(checklistService.getChecklist);
 
   useEffect(() => {
+    console.log(getListingsApi);
     getListingsApi.request();
   }, []);
 
