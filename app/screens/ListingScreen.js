@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList } from "react-native";
 
 import ActivityIndicator from "../components/ActivityIndicator";
@@ -15,7 +15,6 @@ export default function LintingsScreen({ navigation }) {
   const getListingsApi = useApi(checklistService.getChecklist);
 
   useEffect(() => {
-    console.log(getListingsApi);
     getListingsApi.request();
   }, []);
 
