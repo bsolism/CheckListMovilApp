@@ -16,8 +16,7 @@ import routes from "../navigation/routes";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(1).label("Name"),
-  budget: Yup.number().required().min(1).max(10000).label("Budget"),
-  description: Yup.string().label("Description"),
+  price: Yup.number().required().min(1).max(10000).label("Price"),
   ChecklistCategoryId: Yup.object().required().nullable().label("Category"),
 });
 const categories = [
@@ -77,23 +76,23 @@ const categories = [
   },
 ];
 
-export default function ListingEditScreen({ navigation }) {
+export default function ItemEditScreen({ navigation }) {
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  const handleSubmit = async (listing, { resetForm }) => {
+  const handleSubmit = async (item) => {
     setProgress(0);
     setUploadVisible(true);
-    const result = await checklistService.postChecklist(listing, (progress) =>
+    const result = await checklistService.postChecklist(item, (progress) =>
       setProgress(progress)
     );
     console.log(result);
 
     if (!result.ok) {
       setUploadVisible(false);
-      return alert("Could not save the listing");
+      return alert("Could not save the Item");
     }
-    navigation.navigate(routes.LISTING);
+    navigation.navigate(routes.LISTING_DETAILS);
   };
 
   return (
@@ -106,21 +105,15 @@ export default function ListingEditScreen({ navigation }) {
       <Form
         initialValues={{
           name: "",
-          budget: "",
+          price: "",
           description: "",
           ChecklistCategoryId: null,
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
-        <FormField maxLength={255} name="name" placeholder="Title" />
-        <FormField
-          maxLength={255}
-          multiline
-          name="description"
-          numberOfLines={3}
-          placeholder="Description"
-        />
+        <FormField maxLength={255} name="name" placeholder="Name" />
+
         <Picker
           items={categories}
           name="ChecklistCategoryId"
@@ -132,7 +125,7 @@ export default function ListingEditScreen({ navigation }) {
         <FormField
           keyboardType="numeric"
           maxLength={8}
-          name="budget"
+          name="price"
           placeholder="Price"
           width={120}
         />

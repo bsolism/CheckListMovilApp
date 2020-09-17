@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList } from "react-native";
 
+import Button from "../components/Button";
 import CardItem from "../components/CardItem";
 import colors from "../config/color";
 import checklistService from "../services/checklistService";
@@ -12,22 +13,17 @@ export default function LintingItemScreen({ route, navigation }) {
   const listing = route.params;
   const items = listing.items;
 
-  console.log(items);
-
-  /*const [listings, setListings] = useState([]);
-  useEffect(() => {
-    loadListings();
-  }, []);
-
-  const loadListings = async () => {
-    console.log(listing.id);
-    const response = await checklistService.getChecklistById(listing.id);
-    setListings(response.data);
-    console.log(response.data);
-  };*/
   return (
     <Screen style={styles.screen}>
       <Text style={styles.title}>{listing.name}</Text>
+      <Button
+        title="+"
+        color="danger"
+        height="5%"
+        onPress={() =>
+          navigation.navigate(routes.ITEM_EDIT, listing.id.toString())
+        }
+      />
       <FlatList
         data={items}
         keyExtractor={(listing) => listing.id.toString()}
