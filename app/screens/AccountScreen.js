@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, NativeModules } from "react-native";
 
 import Screen from "../components/Screen";
 import ListItem from "../components/lists/ListItem";
 import colors from "../config/color";
 import Icon from "../components/Icon";
 import ListItemSeparatorComponent from "../components/lists/ListItemSeparator";
+import authService from "../services/authService";
 
 const menuItems = [
   {
@@ -26,6 +27,12 @@ const menuItems = [
 ];
 
 export default function AccountScreen({ navigation }) {
+
+  const logout = async () => {
+    await authService.logout();
+    NativeModules.DevSettings.reload();
+  }
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
@@ -57,6 +64,7 @@ export default function AccountScreen({ navigation }) {
       <ListItem
         title="Log Out"
         IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+        onPress={logout}
       />
     </Screen>
   );
