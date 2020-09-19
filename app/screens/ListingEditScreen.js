@@ -136,7 +136,6 @@ export default function ListingEditScreen({ navigation }) {
           placeholder="Price"
           width={120}
         />
-
         <SubmitButton title="Post" />
       </Form>
     </Screen>
