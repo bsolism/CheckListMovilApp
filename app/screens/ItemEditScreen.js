@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
 import {
@@ -17,7 +17,7 @@ import routes from "../navigation/routes";
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(1).label("Name"),
   price: Yup.number().required().min(1).max(10000).label("Price"),
-  ChecklistCategoryId: Yup.object().required().nullable().label("Category"),
+  //ChecklistCategoryId: Yup.object().required().nullable().label("Category"),
 });
 const categories = [
   {
@@ -76,14 +76,21 @@ const categories = [
   },
 ];
 
-export default function ItemEditScreen({ navigation }) {
+export default function ItemEditScreen({ route, navigation }) {
+  const listId = route.params;
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const handleSubmit = async (item) => {
     setProgress(0);
     setUploadVisible(true);
-    const result = await checklistService.postChecklist(item, (progress) =>
+    console.log(listId);
+    var newItem = {
+      checklistid: listId,
+      name: item.name,
+      price: parseFloat(item.price),
+    };
+    const result = await checklistService.postItem(newItem, (progress) =>
       setProgress(progress)
     );
     console.log(result);
@@ -92,7 +99,7 @@ export default function ItemEditScreen({ navigation }) {
       setUploadVisible(false);
       return alert("Could not save the Item");
     }
-    navigation.navigate(routes.LISTING_DETAILS);
+    navigation.navigate(routes.LISTING_ITEM);
   };
 
   return (
@@ -106,22 +113,14 @@ export default function ItemEditScreen({ navigation }) {
         initialValues={{
           name: "",
           price: "",
-          description: "",
-          ChecklistCategoryId: null,
+          // description: "",
+          //ChecklistCategoryId: null,
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormField maxLength={255} name="name" placeholder="Name" />
 
-        <Picker
-          items={categories}
-          name="ChecklistCategoryId"
-          numberOfColumns={3}
-          PickerItemComponent={CategoryPickerItem}
-          placeholder="Category"
-          width="50%"
-        />
         <FormField
           keyboardType="numeric"
           maxLength={8}
@@ -130,7 +129,7 @@ export default function ItemEditScreen({ navigation }) {
           width={120}
         />
 
-        <SubmitButton title="Post" />
+        <SubmitButton title="Save" />
       </Form>
     </Screen>
   );

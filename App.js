@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { AppLoading } from "expo";
 
 import navigationTheme from "./app/navigation/navigationTheme.js";
 import AppNavigator from "./app/navigation/AppNavigator";
-import LoginScreen from "./app/screens/LoginScreen";
-import authService from "./app/services/authService";
-import useApi from "./app/hooks/useApi";
+import OfflineNotice from "./app/components/OfflineNotice";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import AuthContext from "./app/auth/context";
+import authStorage from "./app/auth/storage";
+import { navigationRef } from "./app/navigation/rootNavigator";
+import logger from "./app/utility/logger";
 
 export default function App() {
+  const [user, setUser] = useState();
+  const [isReady, setIsReady] = useState(false);
 
-  const [isLogged, setIsLogged] = useState(null);
-
-  const load = async () => {
-    const res = await authService.isLogged()
-    setIsLogged(res); 
-  }
-
-  login = (data) => {
-    setIsLogged(data);
-  }
-
-  useEffect(() =>{
-    load();
-  },[]);
-
-  if(isLogged){
+  const restoreUser = async () => {
+    const user = await authStorage.getUser();
+    if (user) setUser(user);
+  };
+  if (!isReady)
     return (
-    <NavigationContainer theme={navigationTheme}>
-       <AppNavigator />
-    </NavigationContainer>
-    )
-  }
+      <AppLoading startAsync={restoreUser} onFinish={() => setIsReady(true)} />
+    );
   return (
-    <LoginScreen login = {login}/>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <OfflineNotice />
+      <NavigationContainer ref={navigationRef} theme={navigationTheme}>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
