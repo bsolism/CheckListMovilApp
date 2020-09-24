@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { StyleSheet, FlatList } from "react-native";
+
 import Screen from "../components/Screen";
-import ListItem from "../components/lists/ListItem";
-import ListItemSeparator from "../components/lists/ListItemSeparator";
-import ListItemDeleteAction from "../components/lists/ListItemDeleteAction";
+import {
+  ListItem,
+  ListItemDeleteAction,
+  ListItemSeparator,
+} from "../components/lists";
 
 const initialMessages = [
   {
     id: 1,
-    title:
-      "Lorem Ipsum es simplemente texto de relleno de la industria de la impresión y la composición tipográfica. Lorem Ipsum ha sido el texto de relleno estándar de la industria desde la década de 1500, cuando un impresor desconocido tomó una galera de tipos y la mezcló para hacer un libro de muestras tipográfico. Ha sobrevivido no solo a cinco siglos, sino también al salto a la composición tipográfica electrónica, permaneciendo esencialmente sin cambios. Se popularizó en la década de 1960 con el lanzamiento de hojas de Letraset que contienen pasajes de Lorem Ipsum y, más recientemente, con software de autoedición como Aldus PageMaker que incluye versiones de Lorem Ipsum.",
-    descripcion:
-      "Lorem Ipsum es simplemente texto de relleno de la industria de la impresión y la composición tipográfica. Lorem Ipsum ha sido el texto de relleno estándar de la industria desde la década de 1500, cuando un impresor desconocido tomó una galera de tipos y la mezcló para hacer un libro de muestras tipográfico. Ha sobrevivido no solo a cinco siglos, sino también al salto a la composición tipográfica electrónica, permaneciendo esencialmente sin cambios. Se popularizó en la década de 1960 con el lanzamiento de hojas de Letraset que contienen pasajes de Lorem Ipsum y, más recientemente, con software de autoedición como Aldus PageMaker que incluye versiones de Lorem Ipsum.",
+    title: "Ber",
+    descripcion: "Hey! Is this item still available?",
     image: require("../assets/ber.jpg"),
   },
   {
@@ -24,6 +25,7 @@ const initialMessages = [
 export default function MessageScreen(props) {
   const [messages, setMessages] = useState(initialMessages);
   const [refreshing, setRefreshing] = useState(false);
+
   const handleDelete = (message) => {
     setMessages(messages.filter((m) => m.id !== message.id));
   };

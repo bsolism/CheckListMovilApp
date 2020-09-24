@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
+
 import Text from "./Text";
 
 export default function PickerItem({ item, onPress }) {

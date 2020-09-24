@@ -1,12 +1,12 @@
 import React from "react";
-import { StyleSheet, View, FlatList, NativeModules } from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 
-import Screen from "../components/Screen";
-import ListItem from "../components/lists/ListItem";
+import { ListItem, ListItemSeparator } from "../components/lists";
 import colors from "../config/color";
 import Icon from "../components/Icon";
-import ListItemSeparatorComponent from "../components/lists/ListItemSeparator";
-import authService from "../services/authService";
+import routes from "../navigation/routes";
+import Screen from "../components/Screen";
+import useAuth from "../auth/useAuth";
 
 const menuItems = [
   {
@@ -22,23 +22,19 @@ const menuItems = [
       name: "email",
       backgroundColor: colors.secondary,
     },
-    targetScreen: "Message",
+    targetScreen: routes.MESSAGES,
   },
 ];
 
 export default function AccountScreen({ navigation }) {
-
-  const logout = async () => {
-    await authService.logout();
-    NativeModules.DevSettings.reload();
-  }
+  const { user, logOut } = useAuth();
 
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
         <ListItem
-          title="Bern"
-          subTitle="Programing with Bern"
+          title={user.name}
+          subTitle={user.email}
           image={require("../assets/ber.jpg")}
         />
       </View>
@@ -46,7 +42,7 @@ export default function AccountScreen({ navigation }) {
         <FlatList
           data={menuItems}
           keyExtractor={(menuItems) => menuItems.title}
-          ItemSeparatorComponent={ListItemSeparatorComponent}
+          ItemSeparatorComponent={ListItemSeparator}
           renderItem={({ item }) => (
             <ListItem
               title={item.title}
@@ -64,7 +60,7 @@ export default function AccountScreen({ navigation }) {
       <ListItem
         title="Log Out"
         IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
-        onPress={logout}
+        onPress={() => logOut()}
       />
     </Screen>
   );

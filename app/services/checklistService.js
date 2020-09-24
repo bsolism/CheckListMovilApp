@@ -4,6 +4,7 @@ const endpoint = "/checklist";
 
 const getChecklist = () => ApiClient.get(endpoint);
 const getChecklistById = (id) => ApiClient.get(`${endpoint}/GetById/${id}`);
+
 const getChecklistByUserId = (userId) =>
   ApiClient.get(`${endpoint}/GetByUserId/${userId}`);
 const createChecklist = (checklist) =>
@@ -28,13 +29,7 @@ export const postChecklist = (listing, onUploadProgress) => {
   });
 };
 export const postItem = (listing, onUploadProgress) => {
-  const data = {
-    name: listing.name,
-    description: listing.description,
-    ChecklistCategoryId: listing.ChecklistCategoryId.value,
-    budget: parseFloat(listing.budget),
-  };
-  return ApiClient.post(endpoint, data, {
+  return ApiClient.post(`${endpoint}/AddItem`, listing, {
     onUploadProgress: (progress) =>
       onUploadProgress(progress.loaded / progress.total),
   });
@@ -47,4 +42,5 @@ export default {
   createChecklist,
   updateChecklist,
   postChecklist,
+  postItem,
 };

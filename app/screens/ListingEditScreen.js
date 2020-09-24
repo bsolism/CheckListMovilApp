@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
 import {
@@ -93,6 +93,7 @@ export default function ListingEditScreen({ navigation }) {
       setUploadVisible(false);
       return alert("Could not save the listing");
     }
+    resetForm();
     navigation.navigate(routes.LISTING);
   };
 
@@ -136,12 +137,15 @@ export default function ListingEditScreen({ navigation }) {
           placeholder="Price"
           width={120}
         />
-        <SubmitButton title="Post" />
+
+        <SubmitButton title="Save" />
       </Form>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  padding: 10,
+  container: {
+    padding: 10,
+  },
 });
