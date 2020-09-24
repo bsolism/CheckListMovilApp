@@ -15,7 +15,7 @@ export default function LintingsScreen({ navigation }) {
   const getListingsApi = useApi(checklistService.getChecklist);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
+    const unsubscribe = navigation.addListener('focus', () => {
       getListingsApi.request();
     });
     return unsubscribe;

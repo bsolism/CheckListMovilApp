@@ -4,7 +4,11 @@ import authStorage from "../auth/storage";
 import settings from "../config/settings";
 
 const ApiClient = create({
-  baseURL: settings.apiUrl,
+  baseURL: "http://192.168.0.2:5000/api",
+  headers: {
+    "Content-Type": "application/vnd.api+json",
+    Accept: "v1",
+  },
 });
 
 ApiClient.addAsyncRequestTransform(async (request) => {
