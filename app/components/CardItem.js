@@ -10,7 +10,6 @@ export default function Card({ title, subTitle, price, onPress }) {
       <View style={styles.card}>
         <View style={styles.detalContainer}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subTitle}>{subTitle}</Text>
           <Text style={styles.price}>Lps. {price}</Text>
         </View>
       </View>
@@ -38,5 +37,6 @@ const styles = StyleSheet.create({
   price: {
     color: colors.danger,
     fontWeight: "bold",
+    textAlign: "right",
   },
 });

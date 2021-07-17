@@ -78,6 +78,7 @@ const categories = [
 
 export default function ItemEditScreen({ route, navigation }) {
   const listId = route.params;
+  console.log(listId);
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 

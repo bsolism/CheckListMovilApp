@@ -8,6 +8,7 @@ import Text from "./Text";
 export default function Card({
   title,
   subTitle,
+  price,
   imageUrl,
   onPress,
   thumbnailUrl,
@@ -21,6 +22,9 @@ export default function Card({
           </Text>
           <Text style={styles.subTitle} numberOfLines={2}>
             {subTitle}
+          </Text>
+          <Text style={styles.price} numberOfLines={1}>
+            {price}
           </Text>
         </View>
       </View>
@@ -45,6 +49,11 @@ const styles = StyleSheet.create({
   subTitle: {
     color: colors.secondary,
     fontWeight: "bold",
+  },
+  price: {
+    color: colors.danger,
+    fontWeight: "bold",
+    textAlign: "right",
   },
   title: {
     marginBottom: 7,

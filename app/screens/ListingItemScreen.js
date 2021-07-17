@@ -13,20 +13,32 @@ import useApi from "../hooks/useApi";
 
 export default function LintingItemScreen({ route, navigation }) {
   const listing = route.params;
+  const [listings, setListings] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      loadListings();
+    });
+    return unsubscribe;
+  }, []);
+
+  const loadListings = async () => {
+    const response = await checklistService.getListings(listing.id);
+    setListings(response.data);
+    console.log(response.data);
+  };
 
   return (
     <Screen style={styles.screen}>
-      <Text style={styles.title}>{listing.name}</Text>
+      <Text style={styles.title}>{listings.name}</Text>
       <Button
         title="+"
         color="danger"
         height="5%"
-        onPress={() =>
-          navigation.navigate(routes.ITEM_EDIT, listing.id.toString())
-        }
+        onPress={() => navigation.navigate(routes.ITEM_EDIT, listing.id)}
       />
       <FlatList
-        data={listing.items}
+        data={listings.items}
         keyExtractor={(listing) => listing.id.toString()}
         renderItem={({ item }) => (
           <CardItem

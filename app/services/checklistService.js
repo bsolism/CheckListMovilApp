@@ -3,7 +3,12 @@ import ApiClient from "./client";
 const endpoint = "/checklist";
 
 const getChecklist = () => ApiClient.get(endpoint);
-const getChecklistById = (id) => ApiClient.get(`${endpoint}/GetById/${id}`);
+const getChecklistById = (id) => {
+  console.log("Este Id");
+  console.log(id);
+  return ApiClient.get(`${endpoint}/GetById/${id}`);
+};
+const getListings = (id) => ApiClient.get(endpoint + "/" + "GetById/" + id);
 
 const getChecklistByUserId = (userId) =>
   ApiClient.get(`${endpoint}/GetByUserId/${userId}`);
@@ -43,4 +48,5 @@ export default {
   updateChecklist,
   postChecklist,
   postItem,
+  getListings,
 };

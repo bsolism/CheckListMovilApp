@@ -4,7 +4,7 @@ import authStorage from "../auth/storage";
 import settings from "../config/settings";
 
 const ApiClient = create({
-  baseURL: "http://192.168.0.2:5000/api",
+  baseURL: "http://192.168.0.8:45455/api",
   headers: {
     "Content-Type": "application/vnd.api+json",
     Accept: "v1",
